@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table {
+            margin-top: 10px;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid #000;
+            border-collapse: collapse;
+            padding: 5px;
+        }
+
+        .loading {
+            width: 25px;
+            height: 25px;
+            background-color: white;
+            display: inline-block;
+            border: 1px solid;
+            border-radius: 50%;
+            border-bottom: none;
+            animation: spin 200ms infinite linear;
+
+        }
+
+        .visibility {
+            visibility: hidden;
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        input {
+            padding: 5px;
+
+        }
+
+        button {
+            padding: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Web Scraping</h1>
+    <input type="text" name="" id="search" placeholder="Enter search ..." value="location routing problems">
+    <button onclick="getData()">Search </button>
+    <span class="loading visibility" id="loading"></span>
+    <table id="table" style="width: 100%;">
+        <thead>
+            <tr>
+                <th> SN </th>
+                <th> Title </th>
+                <th> Abstract</th>
+                <th> Website</th>
+            </tr>
+        </thead>
+        <tbody id="table_body" style="text-align: center;">
+
+        </tbody>
+    </table>
+    <button onclick="getData()">Load More </button>
+</body>
+<script>
+    let start = 0
+    function getData() {
+
+        const table = document.getElementById('table_body');
+        const search = document.getElementById('search').value;
+        document.getElementById('loading').classList.remove('visibility')
+        fetch(`http://localhost:3000/power?q=${search}&start=${start}`)
+            .then(res => res.json())
+            .then(data => {
+                data.forEach((element, index) => {
+                    table.innerHTML += `
+                        <tr>
+                            <td>${index + 1 + start}</td>
+                            <td>${element.title ? element.title : ''}</td>
+                            <td>${element.abstract ? element.abstract : ''}</td>
+                            <td><a href='${element.url}'>Visit Website</a></td>
+                        </tr>`
+                });
+                document.getElementById('loading').classList.add('visibility')
+
+            }).catch(e => console.log('erre'))
+            .finally(() => start = start + 10)
+    }
+</script>
+
+</html>
