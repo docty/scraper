@@ -177,7 +177,35 @@ const journalSelector: any = {
     'https://agupubs.onlinelibrary.wiley.com':{
         title: '.citation__title',
         abstract: '.article-section__content > p'
-    } 
+    },
+    'https://www.worldscientific.com/': {
+        title: '.publicationContentTitle > h1',
+        abstract: '.abstractSection > p'
+    },
+    'https://openreview.net': {
+        title: '.note_content_title > span',
+        abstract: '.note_content_value'
+    },
+    'https://dl.acm.org': {
+        title: '.citation__title',
+        abstract: '.abstractSection > p'
+    },
+    'https://academic.oup.com': {
+        title: '.title-wrap > .article-title-main',
+        abstract: '.abstract > p'
+    },
+    'https://pubs.acs.org': {
+        title: '.article_header-title > span',
+        abstract: '.article_abstract-content > p'
+    },
+    'https://arxiv.org/': {
+        title: '.title > span',
+        abstract: '.abstract'
+    },
+    'https://hal.science/': {
+        title: '.title-lang',
+        abstract: '.abstract-content'
+    }
 
 
 } 

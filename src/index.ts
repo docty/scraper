@@ -21,8 +21,6 @@ export const main = async (option: IOption) => {
 
 
 
-  //await imputation(page, option.query)
-
   const link = await getLink(page);
 
   const container = await synthesis(link, browser)

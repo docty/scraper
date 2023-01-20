@@ -15,7 +15,6 @@ const main = async (option) => {
     url.searchParams.set('btnG', '');
     url.searchParams.set('oq', 'r');
     await page.goto(url.href);
-    //await imputation(page, option.query)
     const link = await (0, config_1.getLink)(page);
     const container = await (0, config_1.synthesis)(link, browser);
     await browser.close();

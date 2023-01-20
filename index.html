@@ -54,13 +54,29 @@
             padding: 5px;
         }
     </style>
+    <script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
 </head>
 
 <body>
     <h1>Web Scraping</h1>
     <input type="text" name="" id="search" placeholder="Enter search ..." value="location routing problems">
     <button onclick="getData()">Search </button>
+
     <span class="loading visibility" id="loading"></span>
+    <button id="button" onclick="htmlTableToExcel('xlsx')">Export HTML Table to EXCEL</button>
+    <!-- <label for="Repeation Level"></label>
+    <select id="repeatSelect">
+        <option value="1" selected>1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
+    </select> -->
     <table id="table" style="width: 100%;">
         <thead>
             <tr>
@@ -75,6 +91,7 @@
         </tbody>
     </table>
     <button onclick="getData()">Load More </button>
+
 </body>
 <script>
     let start = 0
@@ -82,7 +99,12 @@
 
         const table = document.getElementById('table_body');
         const search = document.getElementById('search').value;
+        //const select = document.getElementById('repeatSelect').value;
         document.getElementById('loading').classList.remove('visibility')
+
+
+        // for (let index = 0; index < parseInt(select); index++) {
+
         fetch(`http://localhost:3000/power?q=${search}&start=${start}`)
             .then(res => res.json())
             .then(data => {
@@ -99,6 +121,13 @@
 
             }).catch(e => console.log('erre'))
             .finally(() => start = start + 10)
+        //}
+    }
+    function htmlTableToExcel(type) {
+        var data = document.getElementById('table');
+        var excelFile = XLSX.utils.table_to_book(data, { sheet: "sheet1" });
+        XLSX.write(excelFile, { bookType: type, bookSST: true, type: 'base64' });
+        XLSX.writeFile(excelFile, 'ExportedFile:HTMLTableToExcel.' + type);
     }
 </script>
 
